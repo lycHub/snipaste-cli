@@ -1,0 +1,29 @@
+@baseUrl = https://rishenwu.com/lowcode/api
+
+###
+
+GET {{baseUrl}}/metadata
+Content-Type: application/json
+
+###
+
+GET {{baseUrl}}/lowcode/search?PageIndex=1&PageSize=10&EntityName=roles
+Content-Type: application/json
+
+###
+
+GET {{baseUrl}}/lowcode/users/4baa7452-ebf9-45f6-aeae-f89720f06f42
+Content-Type: application/json
+
+###
+POST {{baseUrl}}/lowcode
+content-type: application/json
+
+{
+    "entityName": "roles",
+    "attributes": {
+"name": "admin",
+"description": "管理员"
+    }
+    
+}
