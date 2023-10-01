@@ -3,6 +3,7 @@ import React, {createElement, PropsWithChildren} from "react";
 import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
 import {DndContext, DragEndEvent, DragMoveEvent, DragStartEvent} from "@dnd-kit/core";
 import Draggable from "../Draggable";
+import {useSafeState} from "ahooks";
 
 interface DragData {
     range: number[];
@@ -32,10 +33,12 @@ function ResizeBox(props: PropsWithChildren<Props>) {
         ...rest
     } = Object.assign({ tag: 'div' }, props);
 
+    const [isDragging, setIsDragging] = useSafeState(false);
+
     return createElement(
       tag,
       {
-          className: `resize-box ${className} ${disabled ? 'disabled' : ''}`,
+          className: `resize-box ${className} ${disabled ? 'disabled' : ''} ${isDragging ? 'dragging' : ''}`, // 推荐改用classnames
           ...rest
       },
       children,
@@ -44,9 +47,13 @@ function ResizeBox(props: PropsWithChildren<Props>) {
         onDragStart={dragStartEvent}
         onDragMove={dragMoveEvent}
         onDragEnd={dragEndEvent}>
-          <Draggable id={id} data={data} disabled={disabled}>
-              <div className="handler" />
-          </Draggable>
+          <Draggable
+            className="handler"
+            id={id}
+            data={data}
+            disabled={disabled}
+            draggingChangeEvent={setIsDragging}
+          />
       </DndContext>
     )
 }
