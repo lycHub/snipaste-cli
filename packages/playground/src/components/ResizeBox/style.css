@@ -1,7 +1,7 @@
-.resize-th {
+.resize-box:not(.disabled) {
     position: relative;
 }
-.resize-th .handler {
+.resize-box:not(.disabled) .handler {
     position: absolute;
     right: -1px;
     inset-block: 0;
@@ -10,7 +10,7 @@
     cursor: col-resize;
 }
 
-.resize-th.active {
+.resize-box:not(.disabled).active {
     z-index: 99;
     overflow: initial;
 }

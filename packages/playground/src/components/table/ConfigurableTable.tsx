@@ -4,7 +4,7 @@ import {CustomColumnType, DataType} from './type';
 import MOCK_DATA from './mock';
 import {useMount, useSafeState} from "ahooks";
 import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "./useTableField";
-import ResizeThead from "../ResizeThead";
+import ResizeBox from "../ResizeBox";
 
 const baseColumns: CustomColumnType<DataType>[] = [
   {
@@ -120,10 +120,10 @@ function ConfigurableTable() {
     const title = eventTitle || typeof children[1] === 'string' ? children[1] : '';
     const index = columns.findIndex(item => item.title === title);
     const range = [columns[index]?.minWidth || ColWidthRange[0], columns[index]?.maxWidth || ColWidthRange[1]];
-    const cls = title ? className + ' resize-th' : className;
     const id = `${title}_${index}｝`;
-    return <ResizeThead
-        className={cls}
+    return <ResizeBox
+        tag="th"
+        className={className}
         scope={scope}
         style={style}
         id={id}
@@ -131,7 +131,7 @@ function ConfigurableTable() {
         disabled={!title}>
       {/* todo: checkbox */}
       {title}
-    </ResizeThead>;
+    </ResizeBox>;
   }
 
   return (

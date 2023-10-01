@@ -1,5 +1,5 @@
 import './style.css';
-import React, {CSSProperties, Key, PropsWithChildren} from "react";
+import React, {createElement, CSSProperties, Key, PropsWithChildren} from "react";
 import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
 import {DndContext, DragMoveEvent, useDraggable} from "@dnd-kit/core";
 import {CSS} from '@dnd-kit/utilities';
@@ -9,12 +9,18 @@ interface DragData {
     range: number[];
 }
 interface Props {
+    tag?: string;
+    className?: string;
     id: string | number;
     data: DragData;
     disabled: boolean;
     [key: string]: any;
 }
-function ResizeThead({ id, data, disabled, children, ...rest }: PropsWithChildren<Props>) {
+function ResizeBox(props: PropsWithChildren<Props>) {
+    const { tag, className, id, data, disabled, children, ...rest } = Object.assign({
+        tag: 'div'
+    }, props);
+
     const {
         isDragging,
         attributes,
@@ -45,24 +51,29 @@ function ResizeThead({ id, data, disabled, children, ...rest }: PropsWithChildre
     function dragEnd() {
 
     }
-    return <th {...rest}>
-        {children}
-        <DndContext
-          modifiers={[restrictToHorizontalAxis]}
-          onDragStart={dragStart}
-          onDragMove={dragMove}
-          onDragEnd={dragEnd}>
-            <div
-              className="handler"
-              hidden={disabled}
-              ref={setNodeRef}
-              {...listeners}
-              {...attributes}
-              style={style}
-            />
-        </DndContext>
-    </th>
+    return createElement(
+      tag,
+      {
+          className: `resize-box ${className} ${disabled ? 'disabled' : ''}`,
+          ...rest
+      },
+      children,
+      <DndContext
+        modifiers={[restrictToHorizontalAxis]}
+        onDragStart={dragStart}
+        onDragMove={dragMove}
+        onDragEnd={dragEnd}>
+          <div
+            className="handler"
+            hidden={disabled}
+            ref={setNodeRef}
+            {...listeners}
+            {...attributes}
+            style={style}
+          />
+      </DndContext>
+    )
 }
 
-ResizeThead.displayName = 'ResizeBox';
-export default ResizeThead;
+ResizeBox.displayName = 'ResizeBox';
+export default ResizeBox;
