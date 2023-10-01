@@ -5,6 +5,8 @@ import MOCK_DATA from './mock';
 import {useMount, useSafeState} from "ahooks";
 import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "./useTableField";
 import ResizeBox from "../ResizeBox";
+import {DragMoveEvent} from "@dnd-kit/core";
+import {cloneDeep} from "lodash-es";
 
 const baseColumns: CustomColumnType<DataType>[] = [
   {
@@ -120,7 +122,7 @@ function ConfigurableTable() {
     const title = eventTitle || typeof children[1] === 'string' ? children[1] : '';
     const index = columns.findIndex(item => item.title === title);
     const range = [columns[index]?.minWidth || ColWidthRange[0], columns[index]?.maxWidth || ColWidthRange[1]];
-    const id = `${title}_${index}｝`;
+    const id = `${title}_${index}`;
     return <ResizeBox
         tag="th"
         className={className}
@@ -128,10 +130,25 @@ function ConfigurableTable() {
         style={style}
         id={id}
         data={{ range }}
-        disabled={!title}>
+        disabled={!title}
+        dragStartEvent={dragStart}
+        dragMoveEvent={dragMove}
+        dragEndEvent={dragEnd}
+    >
       {/* todo: checkbox */}
       {title}
     </ResizeBox>;
+  }
+
+  function dragStart() {
+    console.log('dragStart');
+  }
+  function dragMove({ active, delta }: DragMoveEvent) {
+    const index = (active.id as string).split('_')[1];
+    console.log('dragMove', delta.x, index);
+  }
+  function dragEnd() {
+    console.log('dragEnd');
   }
 
   return (
