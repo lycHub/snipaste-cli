@@ -1,10 +1,12 @@
 import React from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { DataType } from './type';
+import {CustomColumnType, DataType, FieldItem} from './type';
 import MOCK_DATA from './mock';
+import {useMount, useSafeState} from "ahooks";
+import {getColumns, initFieldConfig, useTableConfig} from "./useTableField";
 
-const columns: ColumnsType<DataType> = [
+const baseColumns: CustomColumnType<DataType>[] = [
   {
     title: '用户ID',
     width: 120,
@@ -95,6 +97,22 @@ const columns: ColumnsType<DataType> = [
 const data: DataType[] = MOCK_DATA;
 
 function ConfigurableTable() {
+  const {
+    columns, setColumns,
+    fieldConfig, setFieldConfig
+  } = useTableConfig<DataType>();
+
+  useMount(() => {
+    init();
+  });
+
+  function init() {
+    const config = initFieldConfig(baseColumns);
+    setFieldConfig(config);
+    const cols = getColumns(config, baseColumns);
+    setColumns(cols);
+  }
+
   return (
     <div className='config-table'>
       <Table
