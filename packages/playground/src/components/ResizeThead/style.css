@@ -1,0 +1,16 @@
+.resize-th {
+    position: relative;
+}
+.resize-th .handler {
+    position: absolute;
+    right: -1px;
+    inset-block: 0;
+    width: 3px;
+    background-color: blueviolet;
+    cursor: col-resize;
+}
+
+.resize-th.active {
+    z-index: 99;
+    overflow: initial;
+}

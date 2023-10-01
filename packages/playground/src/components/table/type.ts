@@ -10,7 +10,7 @@ export interface DataType {
 }
 
 export interface FieldItem {
-  key: Key;
+  key: string | number;
   title: string;
   fixed: FixedType;
   checked: boolean;
@@ -21,7 +21,7 @@ export interface CustomColumnType<T> extends ColumnType<T> {
   minWidth?: number;
   maxWidth?: number;
   fixed?: FixedType;
-  key: Key;
+  key: string | number;
   title: string;
   width: number;
 }

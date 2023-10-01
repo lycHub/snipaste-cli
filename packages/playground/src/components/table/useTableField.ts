@@ -44,6 +44,7 @@ function getColumns<T>(fields: FieldItem[], cols: CustomColumnType<T>[]) {
   
   
 export {
+  ColWidthRange,
   initFieldConfig,
   getColumns,
   useTableConfig,

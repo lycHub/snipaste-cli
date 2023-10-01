@@ -1,10 +1,10 @@
 import React from 'react';
 import { Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import {CustomColumnType, DataType, FieldItem} from './type';
+import {CustomColumnType, DataType} from './type';
 import MOCK_DATA from './mock';
 import {useMount, useSafeState} from "ahooks";
-import {getColumns, initFieldConfig, useTableConfig} from "./useTableField";
+import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "./useTableField";
+import ResizeThead from "../ResizeThead";
 
 const baseColumns: CustomColumnType<DataType>[] = [
   {
@@ -113,6 +113,27 @@ function ConfigurableTable() {
     setColumns(cols);
   }
 
+
+  function customCell(event: any) {
+    const { children, className, scope, style, title: eventTitle } = event;
+    // ant-table-selection-col
+    const title = eventTitle || typeof children[1] === 'string' ? children[1] : '';
+    const index = columns.findIndex(item => item.title === title);
+    const range = [columns[index]?.minWidth || ColWidthRange[0], columns[index]?.maxWidth || ColWidthRange[1]];
+    const cls = title ? className + ' resize-th' : className;
+    const id = `${title}_${index}｝`;
+    return <ResizeThead
+        className={cls}
+        scope={scope}
+        style={style}
+        id={id}
+        data={{ range }}
+        disabled={!title}>
+      {/* todo: checkbox */}
+      {title}
+    </ResizeThead>;
+  }
+
   return (
     <div className='config-table'>
       <Table
@@ -122,6 +143,11 @@ function ConfigurableTable() {
         dataSource={data}
         scroll={{ x: 1500, y: 300 }}
         pagination={false}
+        components={{
+          header: {
+            cell: customCell
+          }
+        }}
       />
     </div>
   )
