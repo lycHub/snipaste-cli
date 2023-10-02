@@ -1,12 +1,13 @@
 {
-  "name": "@antd-pro/workspace",
+  "name": "@snipaste-cli/workspace",
   "version": "1.0.0",
   "description": "antd pro workspace",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "pnpm -C=packages/playground dev",
-    "build": "pnpm -C=packages/playground build"
+    "build": "pnpm -C=packages/playground build",
+    "sc": "pnpm -C=packages/playground sc"
   },
   "keywords": [
     "pnpm",

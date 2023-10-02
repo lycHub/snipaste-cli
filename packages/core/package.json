@@ -1,0 +1,37 @@
+{
+  "name": "@snipaste-cli/core",
+  "private": true,
+  "version": "0.0.1",
+  "keywords": [
+    "node",
+    "cli",
+    "vue3",
+    "react"
+  ],
+  "description": "node cli",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "sc": "index.js"
+  },
+  "scripts": {
+    "sc": "node index.js"
+  },
+  "files": [
+    "templates",
+    "src",
+    "index.js",
+    "package.json",
+    "readme.md"
+  ],
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "execa": "^8.0.1",
+    "fs-extra": "^11.1.1",
+    "inquirer": "^9.2.11",
+    "lodash-es": "^4.17.21",
+    "ora": "^7.0.1"
+  }
+}

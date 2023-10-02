@@ -1,13 +1,14 @@
 {
-  "name": "@hack/playground",
+  "name": "@snipaste-cli/playground",
   "private": true,
   "version": "0.0.0",
-  "description": "micro host",
+  "description": "react app",
   "type": "module",
   "scripts": {
     "dev": "tsc && vite",
     "build": "vite build",
-    "preview": "vite preview --outDir=../../dist/playground"
+    "preview": "vite preview --outDir=../../dist/playground",
+    "sc": "sc"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
@@ -32,6 +33,7 @@
     "rc-table": "^7.34.4",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.8"
+    "vite": "^4.3.8",
+    "@snipaste-cli/core": "workspace:^0.0.1"
   }
 }
