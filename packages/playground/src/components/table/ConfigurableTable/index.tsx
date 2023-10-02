@@ -13,11 +13,10 @@ import {
   handleDragOver as sortOver,
   handleDragLeave as sortLeave,
   handleDragEnd as sortEnd,
-  handleDrop as sortDrop, handleDragOver
+  handleDrop as sortDrop
 } from "../thSort";
 import './style.css';
 import {arrayMove} from "@dnd-kit/sortable";
-import {cloneDeep} from "lodash-es";
 import {SettingOutlined} from "@ant-design/icons";
 import SortPanel from "../SortPanel";
 
@@ -166,7 +165,8 @@ function ConfigurableTable() {
     const id = `${usedTitle}_${index}`;
 
     const draggable = usedTitle && !columns[index].fixed;
-    // console.log('draggable', usedTitle, draggable);
+    const key = columns.find(item => item.title === usedTitle)?.key;
+    // console.log('col', key, id);
     return <ResizeBox
         key={id}
         tag="th"
@@ -180,7 +180,7 @@ function ConfigurableTable() {
         dragMoveEvent={handleDragMove}
         dragEndEvent={dragEnd}
         draggable={draggable}
-        data-title={usedTitle}
+        data-key={key}
         onDragStart={sortStart}
         onDragEnter={sortEnter}
         onDragOver={sortOver}
@@ -201,11 +201,11 @@ function ConfigurableTable() {
   }
 
   function onDrop(event: DragEvent) {
-    sortDrop(event,({ fromTitle, toTitle }) => {
+    sortDrop(event,({ fromKey, toKey }) => {
       // console.log('onDrop', fromTitle, toTitle);
-      if (fromTitle !== toTitle) {
-        const oldIndex = fieldConfig.findIndex(item => item.title === fromTitle);
-        const newIndex = fieldConfig.findIndex(item => item.title === toTitle);
+      if (fromKey !== toKey) {
+        const oldIndex = fieldConfig.findIndex(item => item.key === fromKey);
+        const newIndex = fieldConfig.findIndex(item => item.key === toKey);
         const newConfig = arrayMove(fieldConfig.slice(), oldIndex, newIndex);
         fieldConfigChange(newConfig);
       }

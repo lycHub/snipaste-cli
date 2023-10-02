@@ -1,13 +1,13 @@
 const DragValidCls = 'resize-box';
 const DragTargetCls = 'drag-target';
 const DragOverCls = 'drag-over';
-const DragDataKey = 'dragItemTitle';
+const DragDataKey = 'dragItemKey';
 
 let draggingEl: HTMLTableHeaderCellElement | null = null;
 
 interface DragEndParams {
-  fromTitle: string;
-  toTitle: string;
+  fromKey: string;
+  toKey: string;
 }
 function validEl(event: DragEvent) {
   const th = event.target as HTMLTableHeaderCellElement;
@@ -15,18 +15,18 @@ function validEl(event: DragEvent) {
 }
 function handleDragStart(event: DragEvent) {
   const th = validEl(event);
-  // console.log('handleDragStart', th.dataset.title);
-  if (th && th.dataset.title && event.dataTransfer) {
+  // console.log('handleDragStart', th.dataset.key);
+  if (th && th.dataset.key && event.dataTransfer) {
     th.classList.add(DragTargetCls);
     draggingEl = th;
-    event.dataTransfer.setData(DragDataKey, th.dataset.title);
+    event.dataTransfer.setData(DragDataKey, th.dataset.key);
     event.dataTransfer.effectAllowed = 'move';
   }
 }
 
 function handleDragEnter(event: DragEvent) {
   const th = validEl(event);
-  // console.log('handleDragStart', th.dataset.title);
+  // console.log('handleDragStart', th.dataset.key);
   if (th && th !== draggingEl) {
     th.classList.add(DragOverCls);
   }
@@ -59,15 +59,14 @@ function handleDragEnd(event: DragEvent) {
 function handleDrop(event: DragEvent, callback: (event: DragEndParams) => void) {
   event.preventDefault();
   const th = validEl(event);
-  const result = null;
-  if (th && th !== draggingEl && th.dataset.title) {
+  if (th && th !== draggingEl && th.dataset.key) {
     draggingEl?.classList?.remove(DragTargetCls);
     th.classList.remove(DragOverCls);
     draggingEl = null;
     if (callback && event.dataTransfer) {
-      const fromTitle = event.dataTransfer.getData(DragDataKey);
-      const toTitle = th.dataset.title;
-      callback({ fromTitle, toTitle });
+      const fromKey = event.dataTransfer.getData(DragDataKey);
+      const toKey = th.dataset.key;
+      callback({ fromKey, toKey });
     }
   }
 }
