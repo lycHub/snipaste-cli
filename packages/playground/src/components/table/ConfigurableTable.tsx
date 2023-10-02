@@ -144,7 +144,6 @@ function ConfigurableTable() {
   const tableRef = useRef<HTMLDivElement>(null);
   function customCell(event: any) {
     const { children, className, scope, style, title } = event;
-    // ant-table-selection-col
     const usedTitle = title || (typeof children[1] === 'string' ? children[1] : '');
     const index = columns.findIndex(item => item.title === usedTitle);
     const range = [columns[index]?.minWidth || ColWidthRange[0], columns[index]?.maxWidth || ColWidthRange[1]];
@@ -188,7 +187,7 @@ function ConfigurableTable() {
         size="small"
         columns={columns}
         dataSource={data}
-        scroll={{ x: 1500, y: 300 }}
+        scroll={{ x: 1000, y: 300 }}
         pagination={false}
         rowSelection={{ selectedRowKeys: selected, onChange: selectChange }}
         components={{
