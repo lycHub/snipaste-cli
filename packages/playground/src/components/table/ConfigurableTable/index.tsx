@@ -1,5 +1,5 @@
 import React, {Key, useRef} from 'react';
-import {Checkbox, Table} from 'antd';
+import {Checkbox, Dropdown, Table, Typography} from 'antd';
 import {CustomColumnType, DataType, FieldItem} from '../type';
 import MOCK_DATA from '../mock';
 import {useMount, useSelections} from "ahooks";
@@ -18,6 +18,8 @@ import {
 import './style.css';
 import {arrayMove} from "@dnd-kit/sortable";
 import {cloneDeep} from "lodash-es";
+import {SettingOutlined} from "@ant-design/icons";
+import SortPanel from "../SortPanel";
 
 const TableConfigStorageKey = 'table-config';
 
@@ -178,14 +180,13 @@ function ConfigurableTable() {
         dragMoveEvent={handleDragMove}
         dragEndEvent={dragEnd}
         draggable={draggable}
-        data-index={index}
+        data-title={usedTitle}
         onDragStart={sortStart}
         onDragEnter={sortEnter}
         onDragOver={sortOver}
         onDragLeave={sortLeave}
         onDragEnd={sortEnd}
-        onDrop={onDrop}
-    >
+        onDrop={onDrop}>
       {
         className.includes('ant-table-selection-column') ? <Checkbox checked={allSelected} onChange={toggleAll} /> : usedTitle
       }
@@ -200,12 +201,14 @@ function ConfigurableTable() {
   }
 
   function onDrop(event: DragEvent) {
-    sortDrop(event,({ oldIndex, newIndex }) => {
-      const newConfig = arrayMove(cloneDeep(fieldConfig), oldIndex, newIndex);
-      setFieldConfig(newConfig);
-      const cols = getColumns(newConfig, baseColumns);
-      setColumns(cols);
-      saveFieldConfig(newConfig);
+    sortDrop(event,({ fromTitle, toTitle }) => {
+      // console.log('onDrop', fromTitle, toTitle);
+      if (fromTitle !== toTitle) {
+        const oldIndex = fieldConfig.findIndex(item => item.title === fromTitle);
+        const newIndex = fieldConfig.findIndex(item => item.title === toTitle);
+        const newConfig = arrayMove(fieldConfig.slice(), oldIndex, newIndex);
+        fieldConfigChange(newConfig);
+      }
     });
   }
 
@@ -214,10 +217,23 @@ function ConfigurableTable() {
     sessionStorage.setItem(TableConfigStorageKey, JSON.stringify(config));
   }
 
+  const fieldConfigChange = (fields: FieldItem[]) => {
+    setFieldConfig(fields);
+    const cols = getColumns(fields, baseColumns);
+    setColumns(cols);
+    saveFieldConfig(fields);
+  }
+
   return (
     <div className='config-table'>
       <div className="setting">
-        <div className="config-pannel">config</div>
+        <Dropdown
+          overlay={<SortPanel fields={fieldConfig} changeEvent={fieldConfigChange} />}
+          trigger={['click']}>
+          <Typography.Link className="config-pannel">
+            <SettingOutlined /> 表格配置
+          </Typography.Link>
+        </Dropdown>
       </div>
       <Table
         ref={tableRef}

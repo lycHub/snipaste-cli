@@ -1,0 +1,39 @@
+.sort-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 4px 16px rgb(25 25 25 / 16%);
+  user-select: none;
+}
+
+.sort-panel .list.sort {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.sort-panel .list .field-item {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 14px;
+  align-items: center;
+  height: 32px;
+  line-height: 32px;
+  padding-inline: 12px;
+}
+
+.sort-panel .list .field-item .field-name {
+  max-width: 140px;
+  transition: color .2s ease-in;
+}
+
+.sort-panel .list .field-item:hover .field-name {
+  color: #0072EF;
+}
+
+.sort-panel .list .field-item .move-handle {
+  transform:rotate(90deg);
+  cursor: move;
+  font-size: 14px;
+}

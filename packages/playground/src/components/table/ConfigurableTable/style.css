@@ -13,7 +13,6 @@
 }
 
 .config-table .setting {
-    display: flex;
-    justify-content: end;
+    text-align: right;
     margin-bottom: 10px;
 }

@@ -1,13 +1,13 @@
 const DragValidCls = 'resize-box';
 const DragTargetCls = 'drag-target';
 const DragOverCls = 'drag-over';
-const DragDataKey = 'dragIndex';
+const DragDataKey = 'dragItemTitle';
 
 let draggingEl: HTMLTableHeaderCellElement | null = null;
 
 interface DragEndParams {
-  oldIndex: number;
-  newIndex: number;
+  fromTitle: string;
+  toTitle: string;
 }
 function validEl(event: DragEvent) {
   const th = event.target as HTMLTableHeaderCellElement;
@@ -15,18 +15,18 @@ function validEl(event: DragEvent) {
 }
 function handleDragStart(event: DragEvent) {
   const th = validEl(event);
-  // console.log('handleDragStart', th.dataset.index);
-  if (th && th.dataset.index && event.dataTransfer) {
+  // console.log('handleDragStart', th.dataset.title);
+  if (th && th.dataset.title && event.dataTransfer) {
     th.classList.add(DragTargetCls);
     draggingEl = th;
-    event.dataTransfer.setData(DragDataKey, th.dataset.index);
+    event.dataTransfer.setData(DragDataKey, th.dataset.title);
     event.dataTransfer.effectAllowed = 'move';
   }
 }
 
 function handleDragEnter(event: DragEvent) {
   const th = validEl(event);
-  // console.log('handleDragStart', th.dataset.index);
+  // console.log('handleDragStart', th.dataset.title);
   if (th && th !== draggingEl) {
     th.classList.add(DragOverCls);
   }
@@ -60,14 +60,14 @@ function handleDrop(event: DragEvent, callback: (event: DragEndParams) => void) 
   event.preventDefault();
   const th = validEl(event);
   const result = null;
-  if (th && th !== draggingEl && th.dataset.index) {
+  if (th && th !== draggingEl && th.dataset.title) {
     draggingEl?.classList?.remove(DragTargetCls);
     th.classList.remove(DragOverCls);
     draggingEl = null;
     if (callback && event.dataTransfer) {
-      const oldIndex = +event.dataTransfer.getData(DragDataKey);
-      const newIndex = +th.dataset.index;
-      callback({ oldIndex, newIndex });
+      const fromTitle = event.dataTransfer.getData(DragDataKey);
+      const toTitle = th.dataset.title;
+      callback({ fromTitle, toTitle });
     }
   }
 }
