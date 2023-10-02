@@ -1,13 +1,15 @@
-import React, {useRef} from 'react';
-import { Table } from 'antd';
-import {CustomColumnType, DataType} from './type';
+import React, {Key, useRef} from 'react';
+import {Checkbox, Table} from 'antd';
+import {CustomColumnType, DataType, FieldItem} from './type';
 import MOCK_DATA from './mock';
-import {useMount, useSafeState} from "ahooks";
+import {useMount, useSafeState, useSelections} from "ahooks";
 import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "./useTableField";
 import ResizeBox from "../ResizeBox";
 import {DragEndEvent, DragMoveEvent} from "@dnd-kit/core";
 import {cloneDeep} from "lodash-es";
 import {handleDragEnd, handleDragMove, handleDragStart} from "./thResize";
+
+const TableConfigStorageKey = 'table-config';
 
 const baseColumns: CustomColumnType<DataType>[] = [
   {
@@ -111,22 +113,44 @@ function ConfigurableTable() {
   });
 
   function init() {
-    const config = initFieldConfig(baseColumns);
+    let config: FieldItem[] = [];
+    try {
+      const storageConfig = JSON.parse(sessionStorage.getItem(TableConfigStorageKey) || '[]');
+      if (storageConfig.length) {
+        // console.log('storageConfig', storageConfig);
+        config = storageConfig;
+        // config = initFieldConfig(baseColumns);
+      } else {
+        config = initFieldConfig(baseColumns);
+      }
+    } catch (error) {
+      config = initFieldConfig(baseColumns);
+    }
     setFieldConfig(config);
     const cols = getColumns(config, baseColumns);
+    // console.log('cols', cols);
     setColumns(cols);
+  }
+
+  const { selected, setSelected, allSelected, toggleAll } = useSelections(
+    data.map(item => item.id),
+    [],
+  );
+
+  function selectChange(keys: Key[]) {
+    setSelected(keys as number[]);
   }
 
   const tableRef = useRef<HTMLDivElement>(null);
   function customCell(event: any) {
 
-    const { children, className, scope, style, title: eventTitle } = event;
+    const { children, className, scope, style, title } = event;
     // ant-table-selection-col
-    const title = eventTitle || (typeof children[1] === 'string' ? children[1] : '');
-    const index = columns.findIndex(item => item.title === title);
+    const usedTitle = title || (typeof children[1] === 'string' ? children[1] : '');
+    const index = columns.findIndex(item => item.title === usedTitle);
     const range = [columns[index]?.minWidth || ColWidthRange[0], columns[index]?.maxWidth || ColWidthRange[1]];
-    const id = `${title}_${index}`;
-    // console.log('id', title, index, id);
+    const id = `${usedTitle}_${index}`;
+    // console.log('className', className);
 
     return <ResizeBox
         tag="th"
@@ -135,21 +159,26 @@ function ConfigurableTable() {
         style={style}
         id={id}
         data={{ range }}
-        disabled={!title}
+        disabled={!usedTitle}
         dragStartEvent={() => handleDragStart(tableRef.current)}
         dragMoveEvent={handleDragMove}
-        dragEndEvent={(event) => {
-          dragEnd(event);
-        }}
-    >
-      {/* todo: checkbox */}
-      {title}
+        dragEndEvent={dragEnd}>
+      {
+        className.includes('ant-table-selection-column') ? <Checkbox checked={allSelected} onChange={toggleAll} /> : usedTitle
+      }
     </ResizeBox>;
   }
   function dragEnd(event: DragEndEvent) {
-    handleDragEnd(event,(data) => {
-      console.log('handleDragStart', data);
+    handleDragEnd(event,({ index, width }) => {
+      fieldConfig[index].width = width;
+      setFieldConfig(fieldConfig);
+      saveFieldConfig(fieldConfig);
     });
+  }
+
+  function saveFieldConfig(config: FieldItem[]) {
+    console.log('saveFieldConfig', config);
+    sessionStorage.setItem(TableConfigStorageKey, JSON.stringify(config));
   }
 
   return (
@@ -162,6 +191,7 @@ function ConfigurableTable() {
         dataSource={data}
         scroll={{ x: 1500, y: 300 }}
         pagination={false}
+        rowSelection={{ selectedRowKeys: selected, onChange: selectChange }}
         components={{
           header: {
             cell: customCell

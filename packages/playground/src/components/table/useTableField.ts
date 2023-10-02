@@ -29,6 +29,10 @@ function initFieldConfig<T>(cols: CustomColumnType<T>[]): FieldItem[] {
 
 function getColumns<T>(fields: FieldItem[], cols: CustomColumnType<T>[]) {
   // console.log('getCurrentColumns :>> ', trueFixedIndexes);
+  /*
+  * 这里以用户配置优先，
+  * 后续业务上有新加字段应该重置配置接口到数据而不是破坏用户已保存到配置
+  * */
   return fields.reduce((res, curr, index) => {
     if (curr.checked) {
       const targetColumn = cols.find(item => item.key === curr.key);

@@ -35,9 +35,8 @@ function ResizeBox(props: PropsWithChildren<Props>) {
     } = Object.assign({ tag: 'div' }, props);
     const [isDragging, setIsDragging] = useSafeState(false);
 
-    const [coordinates, setCoordinates] = useSafeState<Coordinates>();
 
-    function dragEnd(event: DragEndEvent) {
+   /* function dragEnd(event: DragEndEvent) {
         const { delta } = event;
         setCoordinates(value => {
             return {
@@ -46,7 +45,7 @@ function ResizeBox(props: PropsWithChildren<Props>) {
             };
         });
         dragEndEvent(event);
-    }
+    }*/
 
     return createElement(
       tag,
@@ -59,14 +58,13 @@ function ResizeBox(props: PropsWithChildren<Props>) {
         modifiers={[restrictToHorizontalAxis]}
         onDragStart={dragStartEvent}
         onDragMove={dragMoveEvent}
-        onDragEnd={dragEnd}>
+        onDragEnd={dragEndEvent}>
           <Draggable
             className="handler"
             id={id}
             data={data}
             disabled={disabled}
-            // coordinates={coordinates}
-            draggingChangeEvent={setIsDragging}
+            draggingEvent={setIsDragging}
           />
       </DndContext>
     )
