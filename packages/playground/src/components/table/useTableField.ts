@@ -37,6 +37,8 @@ function getColumns<T>(fields: FieldItem[], cols: CustomColumnType<T>[]) {
     if (curr.checked) {
       const targetColumn = cols.find(item => item.key === curr.key);
       if (targetColumn) {
+        targetColumn.width = curr.width;
+        // console.log('targetColumn.width', targetColumn)
         res.push(targetColumn);
       }
     }

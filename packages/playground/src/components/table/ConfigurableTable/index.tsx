@@ -124,10 +124,11 @@ function ConfigurableTable() {
 
   function init() {
     let config: FieldItem[] = [];
+    let needSave = true;
     try {
       const storageConfig = JSON.parse(sessionStorage.getItem(TableConfigStorageKey) || '[]');
       if (storageConfig.length) {
-        // console.log('storageConfig', storageConfig);
+        needSave = false;
         config = storageConfig;
         // config = initFieldConfig(baseColumns);
       } else {
@@ -140,6 +141,9 @@ function ConfigurableTable() {
     const cols = getColumns(config, baseColumns);
     // console.log('cols', cols);
     setColumns(cols);
+    if (needSave) {
+      saveFieldConfig(config);
+    }
   }
 
   const { selected, setSelected, allSelected, toggleAll } = useSelections(
@@ -212,6 +216,9 @@ function ConfigurableTable() {
 
   return (
     <div className='config-table'>
+      <div className="setting">
+        <div className="config-pannel">config</div>
+      </div>
       <Table
         ref={tableRef}
         rowKey="id"
