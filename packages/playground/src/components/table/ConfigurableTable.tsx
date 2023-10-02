@@ -143,7 +143,6 @@ function ConfigurableTable() {
 
   const tableRef = useRef<HTMLDivElement>(null);
   function customCell(event: any) {
-
     const { children, className, scope, style, title } = event;
     // ant-table-selection-col
     const usedTitle = title || (typeof children[1] === 'string' ? children[1] : '');

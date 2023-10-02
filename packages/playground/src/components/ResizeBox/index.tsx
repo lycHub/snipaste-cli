@@ -35,18 +35,6 @@ function ResizeBox(props: PropsWithChildren<Props>) {
     } = Object.assign({ tag: 'div' }, props);
     const [isDragging, setIsDragging] = useSafeState(false);
 
-
-   /* function dragEnd(event: DragEndEvent) {
-        const { delta } = event;
-        setCoordinates(value => {
-            return {
-                x: (value?.x || 0) + delta.x,
-                y: (value?.y || 0) + delta.y,
-            };
-        });
-        dragEndEvent(event);
-    }*/
-
     return createElement(
       tag,
       {
