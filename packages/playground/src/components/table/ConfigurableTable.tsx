@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Table } from 'antd';
 import {CustomColumnType, DataType} from './type';
 import MOCK_DATA from './mock';
 import {useMount, useSafeState} from "ahooks";
 import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "./useTableField";
 import ResizeBox from "../ResizeBox";
-import {DragMoveEvent} from "@dnd-kit/core";
+import {DragEndEvent, DragMoveEvent} from "@dnd-kit/core";
 import {cloneDeep} from "lodash-es";
+import {handleDragEnd, handleDragMove, handleDragStart} from "./thResize";
 
 const baseColumns: CustomColumnType<DataType>[] = [
   {
@@ -23,6 +24,7 @@ const baseColumns: CustomColumnType<DataType>[] = [
     key: 'title',
     fixed: 'left',
     ellipsis: true,
+    // maxWidth: 300
   },
   {
     title: '文章内容',
@@ -115,14 +117,17 @@ function ConfigurableTable() {
     setColumns(cols);
   }
 
-
+  const tableRef = useRef<HTMLDivElement>(null);
   function customCell(event: any) {
+
     const { children, className, scope, style, title: eventTitle } = event;
     // ant-table-selection-col
-    const title = eventTitle || typeof children[1] === 'string' ? children[1] : '';
+    const title = eventTitle || (typeof children[1] === 'string' ? children[1] : '');
     const index = columns.findIndex(item => item.title === title);
     const range = [columns[index]?.minWidth || ColWidthRange[0], columns[index]?.maxWidth || ColWidthRange[1]];
     const id = `${title}_${index}`;
+    // console.log('id', title, index, id);
+
     return <ResizeBox
         tag="th"
         className={className}
@@ -131,29 +136,26 @@ function ConfigurableTable() {
         id={id}
         data={{ range }}
         disabled={!title}
-        dragStartEvent={dragStart}
-        dragMoveEvent={dragMove}
-        dragEndEvent={dragEnd}
+        dragStartEvent={() => handleDragStart(tableRef.current)}
+        dragMoveEvent={handleDragMove}
+        dragEndEvent={(event) => {
+          dragEnd(event);
+        }}
     >
       {/* todo: checkbox */}
       {title}
     </ResizeBox>;
   }
-
-  function dragStart() {
-    console.log('dragStart');
-  }
-  function dragMove({ active, delta }: DragMoveEvent) {
-    const index = (active.id as string).split('_')[1];
-    console.log('dragMove', delta.x, index);
-  }
-  function dragEnd() {
-    console.log('dragEnd');
+  function dragEnd(event: DragEndEvent) {
+    handleDragEnd(event,(data) => {
+      console.log('handleDragStart', data);
+    });
   }
 
   return (
     <div className='config-table'>
       <Table
+        ref={tableRef}
         rowKey="id"
         size="small"
         columns={columns}

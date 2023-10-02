@@ -4,8 +4,9 @@ import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
 import {DndContext, DragEndEvent, DragMoveEvent, DragStartEvent} from "@dnd-kit/core";
 import Draggable from "../Draggable";
 import {useSafeState} from "ahooks";
+import {Coordinates} from "@dnd-kit/utilities";
 
-interface DragData {
+export interface DragData {
     range: number[];
 }
 interface Props {
@@ -32,8 +33,20 @@ function ResizeBox(props: PropsWithChildren<Props>) {
         dragEndEvent,
         ...rest
     } = Object.assign({ tag: 'div' }, props);
-
     const [isDragging, setIsDragging] = useSafeState(false);
+
+    const [coordinates, setCoordinates] = useSafeState<Coordinates>();
+
+    function dragEnd(event: DragEndEvent) {
+        const { delta } = event;
+        setCoordinates(value => {
+            return {
+                x: (value?.x || 0) + delta.x,
+                y: (value?.y || 0) + delta.y,
+            };
+        });
+        dragEndEvent(event);
+    }
 
     return createElement(
       tag,
@@ -46,12 +59,13 @@ function ResizeBox(props: PropsWithChildren<Props>) {
         modifiers={[restrictToHorizontalAxis]}
         onDragStart={dragStartEvent}
         onDragMove={dragMoveEvent}
-        onDragEnd={dragEndEvent}>
+        onDragEnd={dragEnd}>
           <Draggable
             className="handler"
             id={id}
             data={data}
             disabled={disabled}
+            // coordinates={coordinates}
             draggingChangeEvent={setIsDragging}
           />
       </DndContext>
