@@ -1,13 +1,23 @@
 import React, {Key, useRef} from 'react';
 import {Checkbox, Table} from 'antd';
-import {CustomColumnType, DataType, FieldItem} from './type';
-import MOCK_DATA from './mock';
-import {useMount, useSafeState, useSelections} from "ahooks";
-import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "./useTableField";
-import ResizeBox from "../ResizeBox";
-import {DragEndEvent, DragMoveEvent} from "@dnd-kit/core";
+import {CustomColumnType, DataType, FieldItem} from '../type';
+import MOCK_DATA from '../mock';
+import {useMount, useSelections} from "ahooks";
+import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "../useTableField";
+import ResizeBox from "../../ResizeBox";
+import {DragEndEvent} from "@dnd-kit/core";
+import {handleDragEnd, handleDragMove, handleDragStart} from "../thResize";
+import {
+  handleDragStart as sortStart,
+  handleDragEnter as sortEnter,
+  handleDragOver as sortOver,
+  handleDragLeave as sortLeave,
+  handleDragEnd as sortEnd,
+  handleDrop as sortDrop, handleDragOver
+} from "../thSort";
+import './style.css';
+import {arrayMove} from "@dnd-kit/sortable";
 import {cloneDeep} from "lodash-es";
-import {handleDragEnd, handleDragMove, handleDragStart} from "./thResize";
 
 const TableConfigStorageKey = 'table-config';
 
@@ -50,9 +60,9 @@ const baseColumns: CustomColumnType<DataType>[] = [
     ellipsis: true,
   },
   {
-    title: 'Column 4',
-    dataIndex: 'address',
-    key: '4',
+    title: 'Column 41',
+    dataIndex: 'body',
+    key: '41',
     width: 150,
     ellipsis: true,
   },
@@ -148,9 +158,11 @@ function ConfigurableTable() {
     const index = columns.findIndex(item => item.title === usedTitle);
     const range = [columns[index]?.minWidth || ColWidthRange[0], columns[index]?.maxWidth || ColWidthRange[1]];
     const id = `${usedTitle}_${index}`;
-    // console.log('className', className);
 
+    const draggable = usedTitle && !columns[index].fixed;
+    // console.log('draggable', usedTitle, draggable);
     return <ResizeBox
+        key={id}
         tag="th"
         className={className}
         scope={scope}
@@ -160,7 +172,16 @@ function ConfigurableTable() {
         disabled={!usedTitle}
         dragStartEvent={() => handleDragStart(tableRef.current)}
         dragMoveEvent={handleDragMove}
-        dragEndEvent={dragEnd}>
+        dragEndEvent={dragEnd}
+        draggable={draggable}
+        data-index={index}
+        onDragStart={sortStart}
+        onDragEnter={sortEnter}
+        onDragOver={sortOver}
+        onDragLeave={sortLeave}
+        onDragEnd={sortEnd}
+        onDrop={onDrop}
+    >
       {
         className.includes('ant-table-selection-column') ? <Checkbox checked={allSelected} onChange={toggleAll} /> : usedTitle
       }
@@ -174,8 +195,18 @@ function ConfigurableTable() {
     });
   }
 
+  function onDrop(event: DragEvent) {
+    sortDrop(event,({ oldIndex, newIndex }) => {
+      const newConfig = arrayMove(cloneDeep(fieldConfig), oldIndex, newIndex);
+      setFieldConfig(newConfig);
+      const cols = getColumns(newConfig, baseColumns);
+      setColumns(cols);
+      saveFieldConfig(newConfig);
+    });
+  }
+
   function saveFieldConfig(config: FieldItem[]) {
-    console.log('saveFieldConfig', config);
+    // console.log('saveFieldConfig', config);
     sessionStorage.setItem(TableConfigStorageKey, JSON.stringify(config));
   }
 

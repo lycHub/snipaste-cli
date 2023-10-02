@@ -1,0 +1,13 @@
+.resize-box[draggable = true] {
+    cursor: grab;
+    -khtml-user-drag: element;
+}
+
+.resize-box[draggable = true].drag-target {
+    opacity: 0.5 !important;
+}
+
+.resize-box[draggable = true].drag-over {
+    background-color: blueviolet;
+    color: #fff;
+}

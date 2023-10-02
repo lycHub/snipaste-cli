@@ -4,7 +4,6 @@ import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
 import {DndContext, DragEndEvent, DragMoveEvent, DragStartEvent} from "@dnd-kit/core";
 import Draggable from "../Draggable";
 import {useSafeState} from "ahooks";
-import {Coordinates} from "@dnd-kit/utilities";
 
 export interface DragData {
     range: number[];
