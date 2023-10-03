@@ -27,7 +27,22 @@ export const OptionsMeta = {
     option: 'cwd',
     shotOption: '',
   },
+  frame: {
+    key: 'frame',
+    description: '框架类型',
+    default: '',
+    option: 'frame',
+    shotOption: '',
+  },
 }
 
 export const TemplateStoreDirname = 'templates';
-export const Relies  = ['ejs', 'dayjs'];
+export const SnipStoreDirname = 'snips';
+export const Relies  = [
+  '@dnd-kit/core',
+  '@dnd-kit/modifiers',
+  '@dnd-kit/sortable',
+  '@dnd-kit/utilities',
+  'ahooks',
+  'lodash-es',
+];

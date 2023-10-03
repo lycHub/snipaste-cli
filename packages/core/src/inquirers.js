@@ -1,10 +1,3 @@
-const installQues = {
-  type: 'confirm',
-  name: 'install',
-  default: false,
-  message: '是否安装依赖？'
-}
-
 const pkgToolQues = {
   message: '选择包管理工具',
   choices: [
@@ -23,12 +16,18 @@ const pkgToolQues = {
   ],
 }
 
-const pageTypeQues = {
-  type: 'list',
-  name: 'pageType',
-  choices: ['webpack', 'gulp'],
-  default: 'webpack',
-  message: 'webpack or gulp ？'
+const frameQues = {
+  message: '选择框架',
+  choices: [
+    {
+      name: 'react',
+      value: 'react',
+    },
+    {
+      name: 'vue3',
+      value: 'vue3',
+    }
+  ]
 }
 
-export { installQues, pkgToolQues, pageTypeQues };
+export { pkgToolQues, frameQues };

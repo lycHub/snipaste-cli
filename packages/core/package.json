@@ -19,6 +19,7 @@
   },
   "files": [
     "templates",
+    "snips",
     "src",
     "index.js",
     "package.json",

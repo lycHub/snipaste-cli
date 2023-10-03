@@ -1,7 +1,6 @@
-import {FixedType} from "rc-table/es/interface";
 import {ColumnType} from "antd/es/table/interface";
-import {Key} from "react";
 
+export type FixedType = 'left' | 'right' | boolean;
 export interface DataType {
   id: number;
   userId: number;
