@@ -11,7 +11,7 @@ import {TemplateStoreDirname} from "../constants.js";
 // import {installQues, pkgToolQues} from "../inquirers";
 export default function (templateName, options) {
   const spinner = ora(chalk.blue('初始化模版...')).start();
-  // console.log('download', templateName, options);
+  console.log('download', templateName, options);
   const { destination, cwd } = options;
   try {
     /*copySync(join(getDirname(), `../${TemplateStoreDirname}/${templateName}`), destination, {
@@ -21,7 +21,7 @@ export default function (templateName, options) {
     spinner.succeed('模版初始化成功');
     installPkg('npm', cwd);
   } catch (error) {
-    spinner.succeed('模版初始化失败');
+    spinner.fail('模版初始化失败');
     console.log('download error>>>', error);
   }
 }
@@ -29,7 +29,7 @@ export default function (templateName, options) {
 
 
 async function installPkg(pkgTool, cwd = './') {
-  console.log('installPkg', pkgTool, cwd);
+  console.log('installPkg', pkgTool, cwd, process.cwd());
   let tool = pkgTool;
  /* if (!tool) {
     const answers = await inquirer.prompt([pkgToolQues]);
@@ -39,7 +39,13 @@ async function installPkg(pkgTool, cwd = './') {
     console.log(chalk.red('请先安装yarn'));
   } else {
     const spinner = ora(chalk.blue('正在安装依赖...')).start();
-    await exec(`${tool} add dayjs ejs'`, { cwd });
-    spinner.succeed(chalk.green('项目创建成功'));
+    try {
+      await exec(`${tool} add dayjs ejs'`, { cwd });
+      spinner.succeed(chalk.green('依赖安装成功'));
+    } catch (error) {
+      spinner.fail('依赖安装失败');
+      console.log('download error>>>', error);
+    }
+
   }
 }

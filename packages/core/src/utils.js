@@ -27,7 +27,7 @@ function recursiveDir(sourceDir) {
 
 function exec(command, options) {
   return new Promise((resolve, reject) => {
-    const subProcess = execa.command(command, options);
+    const subProcess = execa(command, options);
     subProcess.stdout.pipe(process.stdout);
     subProcess.stdout.on('close', resolve);
     subProcess.stdout.on('error', reject);
