@@ -15,7 +15,7 @@ export const OptionsMeta = {
   },
   pkgTool: {
     key: 'pkgTool',
-    description: 'npm、yarn或pnpm?',
+    description: '选择包管理工具',
     default: '',
     option: 'pkg-tool',
     shotOption: 'pt',
@@ -23,10 +23,11 @@ export const OptionsMeta = {
   cwd: {
     key: 'cwd',
     description: '执行目录，默认项目根目录',
-    default: './',
+    default: process.cwd(),
     option: 'cwd',
     shotOption: '',
   },
 }
 
 export const TemplateStoreDirname = 'templates';
+export const Relies  = ['ejs', 'dayjs'];

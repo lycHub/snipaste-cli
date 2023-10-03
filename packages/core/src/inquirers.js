@@ -6,11 +6,21 @@ const installQues = {
 }
 
 const pkgToolQues = {
-  type: 'list',
-  name: 'pkgTool',
-  choices: ['npm', 'yarn'],
-  default: 'npm',
-  message: 'npm or yarn ？'
+  message: '选择包管理工具',
+  choices: [
+    {
+      name: 'npm',
+      value: 'npm',
+    },
+    {
+      name: 'yarn',
+      value: 'yarn',
+    },
+    {
+      name: 'pnpm',
+      value: 'pnpm',
+    },
+  ],
 }
 
 const pageTypeQues = {

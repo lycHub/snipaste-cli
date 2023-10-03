@@ -1,7 +1,9 @@
-import {execa} from 'execa';
+import {execaSync} from 'execa';
 import { readdirSync, statSync } from 'node:fs';
 import {fileURLToPath} from "node:url";
 import {dirname} from "node:path";
+
+const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 /*interface FileItem {
   file: string;
@@ -27,7 +29,7 @@ function recursiveDir(sourceDir) {
 
 function exec(command, options) {
   return new Promise((resolve, reject) => {
-    const subProcess = execa(command, options);
+    const subProcess = execaSync(command, options);
     subProcess.stdout.pipe(process.stdout);
     subProcess.stdout.on('close', resolve);
     subProcess.stdout.on('error', reject);
@@ -35,9 +37,10 @@ function exec(command, options) {
 }
 
 
+
 function hasYarn() {
   try {
-    execa.commandSync('yarn -v', { stdio: 'ignore' });
+    execaSync('yarn -v', { stdio: 'ignore' });
     return true;
   } catch (error) {
     return false;
@@ -45,11 +48,21 @@ function hasYarn() {
 }
 function hasPnpm() {
   try {
-    execa.commandSync('pnpm -v', { stdio: 'ignore' });
+    execaSync('pnpm -v', { stdio: 'ignore' });
     return true;
   } catch (error) {
     return false;
   }
+}
+
+function validTool(tool) {
+  if (tool === 'yarn') {
+    return hasYarn() ? tool : false
+  }
+  if (tool === 'pnpm') {
+    return hasPnpm() ? tool : false
+  }
+  return npm;
 }
 
 function getDirname() {
@@ -57,4 +70,4 @@ function getDirname() {
   return dirname(filename);
 }
 
-export { getDirname, recursiveDir, exec, hasYarn, hasPnpm };
+export { getDirname, recursiveDir, exec, hasYarn, hasPnpm, validTool };
