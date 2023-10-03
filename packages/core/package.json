@@ -1,14 +1,14 @@
 {
   "name": "@snipaste-cli/core",
-  "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "node",
     "cli",
     "vue3",
     "react"
   ],
-  "description": "node cli",
+  "description": "Fronted fragment cli",
+  "homepage": "https://github.com/lycHub/snipaste-cli#readme",
   "type": "module",
   "main": "index.js",
   "bin": {
@@ -23,7 +23,8 @@
     "src",
     "index.js",
     "package.json",
-    "readme.md"
+    "readme.md",
+    "img.png"
   ],
   "dependencies": {
     "@inquirer/prompts": "^3.1.2",
@@ -34,5 +35,6 @@
     "fs-extra": "^11.1.1",
     "lodash-es": "^4.17.21",
     "ora": "^7.0.1"
-  }
+  },
+  "license" : "MIT"
 }
