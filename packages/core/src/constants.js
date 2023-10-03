@@ -20,4 +20,13 @@ export const OptionsMeta = {
     option: 'pkg-tool',
     shotOption: 'pt',
   },
+  cwd: {
+    key: 'cwd',
+    description: '执行目录，默认项目根目录',
+    default: './',
+    option: 'cwd',
+    shotOption: '',
+  },
 }
+
+export const TemplateStoreDirname = 'templates';
