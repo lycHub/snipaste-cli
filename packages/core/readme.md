@@ -6,6 +6,11 @@
 npm add @snipaste-cli/core -D
 ```
 
+#### 前提
+- node=^16.17
+- antd=^5.5
+- @ant-design/icons=^5.1
+
 #### 下载代码块
 ```text
 // 默认在~/templates/antdPro下生成antd代码片段
@@ -20,11 +25,11 @@ npx sc antdPro -des a/v/d
 #### 安装依赖
 > 如果要运行代码块，需要安装以下依赖
 ```text
-// 根据项目选择安装
-npm add @dnd-kit/core @dnd-kit/modifiers @dnd-kit/sortable @dnd-kit/utilities ahooks lodash-es'
+// 根据项目选择安装, 已安装的忽略
+npm add antd @ant-design/icons @dnd-kit/core @dnd-kit/modifiers @dnd-kit/sortable @dnd-kit/utilities ahooks lodash-es
 
 // 也可以下载时指定 "--install" 参数自动下载，支持 npm | yarn | pnpm
-npx sc antdPro -i // 待测试
+npx sc antdPro -i // antd @ant-design/icons 需要自行安装
 ```
 
 #### 预览代码块

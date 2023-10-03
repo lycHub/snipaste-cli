@@ -8,7 +8,7 @@
     "react"
   ],
   "description": "Fronted fragment cli",
-  "homepage": "https://github.com/lycHub/snipaste-cli#readme",
+  "homepage": "https://github.com/lycHub/snipaste-cli/tree/main/packages/core#readme",
   "type": "module",
   "main": "index.js",
   "bin": {
