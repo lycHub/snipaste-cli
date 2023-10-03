@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "tsc && vite",
     "build": "vite build",
-    "preview": "vite preview --outDir=../../dist/playground",
-    "sc": "sc"
+    "preview": "vite preview --outDir=../../dist/playground"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
