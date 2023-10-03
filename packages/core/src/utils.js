@@ -1,5 +1,7 @@
 import {execa} from 'execa';
 import { readdirSync, statSync } from 'node:fs';
+import {fileURLToPath} from "node:url";
+import {dirname} from "node:path";
 
 /*interface FileItem {
   file: string;
@@ -50,4 +52,9 @@ function hasPnpm() {
   }
 }
 
-export { recursiveDir, exec, hasYarn, hasPnpm };
+function getDirname() {
+  const filename = fileURLToPath(import.meta.url);
+  return dirname(filename);
+}
+
+export { getDirname, recursiveDir, exec, hasYarn, hasPnpm };

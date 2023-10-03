@@ -1,4 +1,5 @@
 import { program } from 'commander';
+import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import {OptionsMeta} from "./constants.js";
 import download from "./actions/download.js";

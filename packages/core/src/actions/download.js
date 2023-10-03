@@ -1,15 +1,20 @@
+import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import ora from "ora";
 import chalk from "chalk";
-import {exec, hasYarn, recursiveDir} from "../utils.js";
+import {getDirname, exec, hasYarn, recursiveDir} from "../utils.js";
 import { partition } from "lodash-es";
 import template from 'art-template';
 import inquirer from 'inquirer';
-import {unlinkSync, writeFileSync} from "node:fs";
+import {copySync} from "fs-extra/esm";
+
 // import {installQues, pkgToolQues} from "../inquirers";
 export default async function (templateName, options) {
   // const spinner = ora(chalk.blue('初始化模版...')).start();
   // console.log('download', templateName, options);
   console.log('download>>>', templateName, options);
+  console.log('download>>>', getDirname(getDirname(), '../templates'));
+  // copySync('/tmp/mydir', '/tmp/mynewdir')
 }
 
 

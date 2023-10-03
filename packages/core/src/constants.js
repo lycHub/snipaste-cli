@@ -2,7 +2,7 @@ export const OptionsMeta = {
   destination: {
     key: 'destination',
     description: '下载目录，默认/demo/',
-    default: 'demo',
+    default: 'templates',
     option: 'destination',
     shotOption: 'des',
   },
