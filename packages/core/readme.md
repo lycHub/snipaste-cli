@@ -27,6 +27,21 @@ npm add @dnd-kit/core @dnd-kit/modifiers @dnd-kit/sortable @dnd-kit/utilities ah
 npx sc antdPro -i // 待测试
 ```
 
+#### 预览代码块
+将下载到模板复制到src里到任意目录，引用其中到组件就能看到效果
+```tsx
+import React from 'react';
+import ConfigurableTable from './components/table/ConfigurableTable';
+
+function App() {
+  return <div className="app">
+    <ConfigurableTable />
+  </div>
+}
+
+export default App;
+```
+
 ### 命令参数
 #### sc
 ```text

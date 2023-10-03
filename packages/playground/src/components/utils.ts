@@ -1,7 +1,7 @@
 function removePx(value: string) {
     return value ? value.slice(0, -2) : '0'
 }
-
+// utils
 function setStyleProps(dom: HTMLElement, properties: Record<string, string>) {
     const props = Object.entries(properties);
     if (dom && props.length) {
