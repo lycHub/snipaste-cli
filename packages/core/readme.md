@@ -8,6 +8,7 @@ npm add @snipaste-cli/core -D
 
 #### 前提
 - node=^16.17
+- typescript=^5.0
 - antd=^5.5
 - @ant-design/icons=^5.1
 
@@ -95,14 +96,14 @@ npx sc add d a/b/DireA // 将在src/a/b 下生成
 ##### 其它命令
 ```text
 // 查看版本
-vmc -V
+npx sc -V
 
 // 查看帮助信息
-vmc -h
+npx sc -h
 
-vmc add -h
+npx sc add -h
 
-vmc add c -h
+npx sc add c -h
 ...
 
 ```

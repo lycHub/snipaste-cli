@@ -1,6 +1,6 @@
 {
   "name": "@snipaste-cli/core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [
     "node",
     "cli",
@@ -36,5 +36,5 @@
     "lodash-es": "^4.17.21",
     "ora": "^7.0.1"
   },
-  "license" : "MIT"
+  "license": "MIT"
 }

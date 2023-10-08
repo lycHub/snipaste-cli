@@ -1,5 +1,4 @@
 import {ColumnType} from "antd/es/table/interface";
-
 export type FixedType = 'left' | 'right' | boolean;
 export interface DataType {
   id: number;

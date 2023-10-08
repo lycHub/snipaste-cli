@@ -44,7 +44,7 @@ const baseColumns: CustomColumnType<DataType>[] = [
     dataIndex: 'body',
     key: 'body',
     ellipsis: true,
-    width: 180,
+    width: 340,
   },
   {
     title: 'Column 3',
@@ -241,7 +241,7 @@ function ConfigurableTable() {
         size="small"
         columns={columns}
         dataSource={data}
-        scroll={{ x: 1000, y: 300 }}
+        scroll={{ x: 1500, y: 300 }}
         pagination={false}
         rowSelection={{ selectedRowKeys: selected, onChange: selectChange }}
         components={{
