@@ -34,7 +34,7 @@ npx sc antdPro -i // antd @ant-design/icons 需要自行安装
 ```
 
 #### 预览代码块
-将下载到模板复制到src里到任意目录，引用其中到组件就能看到效果
+将下载到模板复制到项目目录中(比如 src/components)，引用'ConfigurableTable'组件就能看到效果
 ```tsx
 import React from 'react';
 import ConfigurableTable from './components/table/ConfigurableTable';
@@ -75,11 +75,11 @@ npx sc add c CompA --frame react
  src/components/CompA/index.tsx
  src/components/CompA/style.css
 
-// 指定框架，目前只有vue3和react
+// 指定框架，目前只有vue3和react(默认)
 --frame [react|vue3]
 
 // 指定目录
-npx sc add c a/b/cCompA // 将在src/a/b/c 下生成
+npx sc add c a/b/c/CompA // 将在src/a/b/c 下生成
 ```
 
 
