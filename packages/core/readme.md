@@ -21,7 +21,7 @@ npx sc antdPro
 npx sc antdPro -des a/v/d
 ```
 
-![img.png](img.png)
+![img.png](https://github.com/lycHub/snipaste-cli/blob/main/packages/core/img.png)
 
 #### 安装依赖
 > 如果要运行代码块，需要安装以下依赖
@@ -47,6 +47,8 @@ function App() {
 
 export default App;
 ```
+
+#### [在线demo](https://stackblitz.com/edit/vitejs-vite-3oygwe?file=src%2FApp.tsx)
 
 ### 命令参数
 #### sc
