@@ -14,7 +14,7 @@ npm add @snipaste-cli/core -D
 
 #### 下载代码块
 ```text
-// 默认在~/templates/antdPro下生成antd代码片段
+// 默认把antdPro的模板下载到~/templates目录下
 npx sc antdPro
 
 // 指定生成路径,eg: 在 ~/a/v/d下生成
@@ -23,8 +23,14 @@ npx sc antdPro -des a/v/d
 
 ![img.png](https://github.com/lycHub/snipaste-cli/blob/main/packages/core/img.png)
 
+#### 可用的模板名
+> 如果不指定模板将下载全部模板
+- antdPro
+- globalStyles
+
+
 #### 安装依赖
-> 如果要运行代码块，需要安装以下依赖
+> 如果要运行antdPro的代码，需要安装以下依赖
 ```text
 // 根据项目选择安装, 已安装的忽略
 npm add antd @ant-design/icons @dnd-kit/core @dnd-kit/modifiers @dnd-kit/sortable @dnd-kit/utilities ahooks lodash-es
@@ -33,7 +39,7 @@ npm add antd @ant-design/icons @dnd-kit/core @dnd-kit/modifiers @dnd-kit/sortabl
 npx sc antdPro -i // antd @ant-design/icons 需要自行安装
 ```
 
-#### 预览代码块
+#### 预览antdPro
 将下载到模板复制到项目目录中(比如 src/components)，引用'ConfigurableTable'组件就能看到效果
 ```tsx
 import React from 'react';

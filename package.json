@@ -14,5 +14,11 @@
     "antd"
   ],
   "author": "ysx",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "postcss-import": "^15.1.0"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1"
+  }
 }
