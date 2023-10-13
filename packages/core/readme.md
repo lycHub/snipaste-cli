@@ -24,7 +24,7 @@ npx sc antdPro -des a/v/d
 ![img.png](https://github.com/lycHub/snipaste-cli/blob/main/packages/core/img.png)
 
 #### 可用的模板名
-> 如果不指定模板将下载全部模板
+> 如果不指定将下载全部模板
 - antdPro
 - globalStyles
 
@@ -40,7 +40,7 @@ npx sc antdPro -i // antd @ant-design/icons 需要自行安装
 ```
 
 #### 预览antdPro
-将下载到模板复制到项目目录中(比如 src/components)，引用'ConfigurableTable'组件就能看到效果
+将下载的模板复制到src里(比如 src/components)，引用'ConfigurableTable'组件就能看到效果
 ```tsx
 import React from 'react';
 import ConfigurableTable from './components/table/ConfigurableTable';
