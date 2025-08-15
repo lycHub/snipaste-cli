@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "pnpm -C=packages/playground dev",
-    "build": "pnpm -C=packages/playground build"
+    "build": "pnpm -C=packages/playground build",
+    "build:i18n": "pnpm -C=packages/i18n build",
+    "i18n:extract": "pnpm -C=packages/playground i18n:extract"
   },
   "keywords": [
     "pnpm",
@@ -19,6 +21,10 @@
     "postcss-import": "^15.1.0"
   },
   "dependencies": {
-    "fs-extra": "^11.1.1"
-  }
+    "fs-extra": "^11.1.1",
+    "i18next": "^25.3.6",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "react-i18next": "^15.6.1"
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
 }

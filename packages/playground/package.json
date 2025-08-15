@@ -8,7 +8,9 @@
     "dev": "tsc && vite",
     "build": "vite build",
     "preview": "vite preview --outDir=../../dist/playground",
-    "copy": "node copy.js"
+    "copy": "node copy.js",
+    "i18n:extract": "i18n",
+    "i18n:gen": "node gen-i18n"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
@@ -33,6 +35,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.8"
+    "vite": "^4.3.8",
+    "@snipaste-cli/i18n": "workspace:^0.0.1"
   }
 }

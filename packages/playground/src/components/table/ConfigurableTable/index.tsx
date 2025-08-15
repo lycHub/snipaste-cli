@@ -1,12 +1,12 @@
-import React, {Key, useRef} from 'react';
-import {Checkbox, Dropdown, Table, Typography} from 'antd';
-import {CustomColumnType, DataType, FieldItem} from '../type';
+import React, { Key, useRef } from 'react';
+import { Checkbox, Dropdown, Table, Typography } from 'antd';
+import { CustomColumnType, DataType, FieldItem } from '../type';
 import MOCK_DATA from '../mock';
-import {useMount, useSelections} from "ahooks";
-import {ColWidthRange, getColumns, initFieldConfig, useTableConfig} from "../useTableField";
+import { useMount, useSelections } from "ahooks";
+import { ColWidthRange, getColumns, initFieldConfig, useTableConfig } from "../useTableField";
 import ResizeBox from "../../ResizeBox";
-import {DragEndEvent} from "@dnd-kit/core";
-import {handleDragEnd, handleDragMove, handleDragStart} from "../thResize";
+import { DragEndEvent } from "@dnd-kit/core";
+import { handleDragEnd, handleDragMove, handleDragStart } from "../thResize";
 import {
   handleDragStart as sortStart,
   handleDragEnter as sortEnter,
@@ -16,8 +16,8 @@ import {
   handleDrop as sortDrop
 } from "../thSort";
 import './style.css';
-import {arrayMove} from "@dnd-kit/sortable";
-import {SettingOutlined} from "@ant-design/icons";
+import { arrayMove } from "@dnd-kit/sortable";
+import { SettingOutlined } from "@ant-design/icons";
 import SortPanel from "../SortPanel";
 
 const TableConfigStorageKey = 'table-config';
@@ -168,32 +168,32 @@ function ConfigurableTable() {
     const key = columns.find(item => item.title === usedTitle)?.key;
     // console.log('col', key, id);
     return <ResizeBox
-        key={id}
-        tag="th"
-        className={className}
-        scope={scope}
-        style={style}
-        id={id}
-        data={{ range }}
-        disabled={!usedTitle}
-        dragStartEvent={() => handleDragStart(tableRef.current)}
-        dragMoveEvent={handleDragMove}
-        dragEndEvent={dragEnd}
-        draggable={draggable}
-        data-key={key}
-        onDragStart={sortStart}
-        onDragEnter={sortEnter}
-        onDragOver={sortOver}
-        onDragLeave={sortLeave}
-        onDragEnd={sortEnd}
-        onDrop={onDrop}>
+      key={id}
+      tag="th"
+      className={className}
+      scope={scope}
+      style={style}
+      id={id}
+      data={{ range }}
+      disabled={!usedTitle}
+      dragStartEvent={() => handleDragStart(tableRef.current)}
+      dragMoveEvent={handleDragMove}
+      dragEndEvent={dragEnd}
+      draggable={draggable}
+      data-key={key}
+      onDragStart={sortStart}
+      onDragEnter={sortEnter}
+      onDragOver={sortOver}
+      onDragLeave={sortLeave}
+      onDragEnd={sortEnd}
+      onDrop={onDrop}>
       {
         className.includes('ant-table-selection-column') ? <Checkbox checked={allSelected} onChange={toggleAll} /> : usedTitle
       }
     </ResizeBox>;
   }
   function dragEnd(event: DragEndEvent) {
-    handleDragEnd(event,({ index, width }) => {
+    handleDragEnd(event, ({ index, width }) => {
       fieldConfig[index].width = width;
       setFieldConfig(fieldConfig);
       saveFieldConfig(fieldConfig);
@@ -201,7 +201,7 @@ function ConfigurableTable() {
   }
 
   function onDrop(event: DragEvent) {
-    sortDrop(event,({ fromKey, toKey }) => {
+    sortDrop(event, ({ fromKey, toKey }) => {
       // console.log('onDrop', fromTitle, toTitle);
       if (fromKey !== toKey) {
         const oldIndex = fieldConfig.findIndex(item => item.key === fromKey);
