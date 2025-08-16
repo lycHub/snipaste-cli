@@ -15,7 +15,6 @@
     "i18n": "index.js"
   },
   "scripts": {
-    "sc": "node dist/index.js",
     "dev": "tsc -w",
     "build": "tsc && npm run build:type",
     "build:type": "tsc --project tsconfig.type.json"
