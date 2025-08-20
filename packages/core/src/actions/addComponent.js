@@ -6,7 +6,7 @@ import {readdirSync} from "node:fs";
 import {getDirname} from "../utils.js";
 import {SnipStoreDirname} from "../constants.js";
 import {outputFileSync, pathExistsSync} from "fs-extra/esm";
-import {frameQues, pkgToolQues} from "../inquirers.js";
+import {frameQues} from "../inquirers.js";
 import {select} from "@inquirer/prompts";
 
 export default async function (name, { frame }) {

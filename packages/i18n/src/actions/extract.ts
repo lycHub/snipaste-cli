@@ -1,11 +1,15 @@
-import { join } from "node:path";
 import ora from "ora";
 import chalk from "chalk";
-import { Relies, TemplateStoreDirname } from "../constants.js";
-import { execaSync } from "execa";
-import { select } from "@inquirer/prompts";
-import { copySync, pathExistsSync } from "fs-extra/esm";
-import { getDirname } from "../utils.js";
+import {
+  getDirname,
+  readFileContent,
+  textToObject,
+  writeToJsonFile,
+} from "../utils.js";
+import { glob } from "glob";
+import { resolve, join } from "node:path";
+import { compact, uniq } from "es-toolkit";
+import { MsgObj } from "../typing.js";
 
 interface ExtractOptions {
   source: string;
@@ -18,22 +22,36 @@ const DefaultOptions: ExtractOptions = {
   dest: "i18n/resource.json",
   cwd: process.cwd(),
 };
-
+const basePath = getDirname(import.meta.url);
 export default async function (options: ExtractOptions) {
   const mergedOptions = { ...DefaultOptions, ...options };
   const spinner = ora(chalk.blue("extracting...")).start();
   console.log("extract", mergedOptions);
-  spinner.succeed("提取成功");
 
-  /* 
-   const tplPath = join(
-      getDirname(),
-      `../${TemplateStoreDirname}${templatePath}`
-    );
-  */
   try {
+    const tsxFilePaths = await glob(mergedOptions.source, {
+      cwd: mergedOptions.cwd,
+    });
+    // console.log("tsxFilePaths>>>", tsxFilePaths);
+    const allTexts: string[] = [];
+    if (tsxFilePaths.length) {
+      const promises = tsxFilePaths.map((path) =>
+        readFileContent(join(mergedOptions.cwd, path))
+      );
+      for await (const texts of promises) {
+        allTexts.push(...texts);
+      }
+    }
+    const validTexts = uniq(compact(allTexts));
+    const jsonText = validTexts.map((item) => textToObject(item));
+    // console.log("validTexts>>> ", jsonText);
+    await writeToJsonFile(
+      jsonText,
+      join(mergedOptions.cwd, mergedOptions.dest)
+    );
+    spinner.succeed("提取成功");
   } catch (error) {
-    spinner.fail("模版初始化失败");
-    console.log("extract error>>>", error);
+    console.error("提取失败:", error);
+    throw error;
   }
 }
