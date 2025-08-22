@@ -1,42 +1,33 @@
 import ora from "ora";
 import chalk from "chalk";
 import {
-  getDirname,
+  loadConfig,
   readFileContent,
   textToObject,
   writeToJsonFile,
 } from "../utils.js";
 import { glob } from "glob";
-import { resolve, join } from "node:path";
+import { join, resolve } from "node:path";
 import { compact, uniq } from "es-toolkit";
-import { MsgObj } from "../typing.js";
+import { DefaultConfig } from "../constants.js";
+import { I18nConfig } from "../typing.js";
 
-interface ExtractOptions {
-  source: string;
-  dest: string;
-  cwd: string;
-}
-
-const DefaultOptions: ExtractOptions = {
-  source: "**/*.{ts,js,jsx,tsx}",
-  dest: "i18n/resource.json",
-  cwd: process.cwd(),
-};
-const basePath = getDirname(import.meta.url);
-export default async function (options: ExtractOptions) {
-  const mergedOptions = { ...DefaultOptions, ...options };
+// const basePath = getDirname(import.meta.url);
+export default async function (config: I18nConfig) {
+  const cwd = config.cwd || DefaultConfig.cwd;
+  const configObj = await loadConfig({ path: resolve(cwd, "i18n.config.js") });
+  const mergedConfig = { ...DefaultConfig, ...configObj, ...config };
+  console.log("extract", mergedConfig);
   const spinner = ora(chalk.blue("extracting...")).start();
-  console.log("extract", mergedOptions);
-
   try {
-    const tsxFilePaths = await glob(mergedOptions.source, {
-      cwd: mergedOptions.cwd,
+    const tsxFilePaths = await glob(mergedConfig.extractTarget, {
+      cwd: mergedConfig.cwd,
     });
     // console.log("tsxFilePaths>>>", tsxFilePaths);
     const allTexts: string[] = [];
     if (tsxFilePaths.length) {
       const promises = tsxFilePaths.map((path) =>
-        readFileContent(join(mergedOptions.cwd, path))
+        readFileContent(join(mergedConfig.cwd, path))
       );
       for await (const texts of promises) {
         allTexts.push(...texts);
@@ -47,7 +38,7 @@ export default async function (options: ExtractOptions) {
     // console.log("validTexts>>> ", jsonText);
     await writeToJsonFile(
       jsonText,
-      join(mergedOptions.cwd, mergedOptions.dest)
+      join(mergedConfig.cwd, mergedConfig.extractDest)
     );
     spinner.succeed("提取成功");
   } catch (error) {

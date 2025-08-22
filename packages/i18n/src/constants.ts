@@ -1,3 +1,6 @@
+import { I18nConfig } from "./typing.js";
+import { ExtractOptions, GenOptions } from "./typing.js";
+
 export const OptionsMeta = {
   source: {
     key: "source",
@@ -30,3 +33,15 @@ export const Relies = [
   "ahooks",
   "lodash-es",
 ];
+
+const Langs = ["zh", "en"];
+
+export const DefaultConfig: I18nConfig = {
+  cwd: process.cwd(),
+  extractTarget: "**/*.{ts,js,jsx,tsx}",
+  extractDest: "i18n/resource.json",
+  langs: Langs,
+  mainLang: Langs[0],
+  resourcePath: "",
+  tranTarget: "i18n",
+};
