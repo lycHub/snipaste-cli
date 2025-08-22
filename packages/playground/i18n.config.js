@@ -5,4 +5,21 @@ export default {
   // mainLang: Langs[0],
   resourcePath: "",
   tranDest: "i18n",
+  tencent: {
+    config: {
+      credential: {
+        secretId: "AKID1vcByhR0e5IGzVny72jFXaOxIOEpBIAn",
+        secretKey: "QindEdpnX3LQGrENJ1VlnZ6PYT9a0FOV",
+      },
+      region: "ap-shanghai",
+      profile: {
+        httpProfile: {
+          endpoint: "tmt.tencentcloudapi.com",
+        },
+      },
+    },
+    translateParams: {
+      ProjectId: 0,
+    },
+  },
 };
