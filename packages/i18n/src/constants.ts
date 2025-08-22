@@ -1,25 +1,41 @@
 import { I18nConfig } from "./typing.js";
-import { ExtractOptions, GenOptions } from "./typing.js";
 
 export const OptionsMeta = {
-  source: {
-    key: "source",
-    description: "目标文件",
-    default: "**/*.{ts,js,jsx,tsx}",
-    option: "source",
-  },
-  dest: {
-    key: "dest",
-    description: "下载目录",
-    default: "i18n/resource.json",
-    option: "dest",
-  },
   cwd: {
     key: "cwd",
     description: "执行目录",
     default: process.cwd(),
     option: "cwd",
     shotOption: "",
+  },
+  extractTarget: {
+    key: "extractTarget",
+    description: "目标文件",
+    default: "**/*.{ts,js,jsx,tsx}",
+    option: "extractTarget",
+    shortOption: "et",
+  },
+  extractDest: {
+    key: "extractDest",
+    description: "下载目录",
+    default: "i18n/resource.json",
+    option: "extractDest",
+    shortOption: "ed",
+  },
+
+  resourcePath: {
+    key: "resourcePath",
+    description: "目标文件",
+    default: "i18n/resource.json",
+    option: "resourcePath",
+    shortOption: "rp",
+  },
+  tranDest: {
+    key: "tranDestDir",
+    description: "翻译结果存放目录",
+    default: "i18n",
+    option: "tranDest",
+    shortOption: "td",
   },
 };
 
@@ -43,5 +59,5 @@ export const DefaultConfig: I18nConfig = {
   langs: Langs,
   mainLang: Langs[0],
   resourcePath: "",
-  tranTarget: "i18n",
+  tranDest: "i18n",
 };

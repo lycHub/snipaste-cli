@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview --outDir=../../dist/playground",
     "copy": "node copy.js",
-    "i18n:extract": "i18n extract",
+    "i18n:extract": "i18n extract -ed i18n/ddd.json",
     "i18n:gen": "i18n gen"
   },
   "dependencies": {

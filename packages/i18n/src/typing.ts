@@ -1,3 +1,5 @@
+import * as TencentCloudCommon from "tencentcloud-sdk-nodejs-common";
+import { TextTranslateBatchRequest } from "tencentcloud-sdk-nodejs-tmt/tencentcloud/services/tmt/v20180321/tmt_models.js";
 export interface MsgObj {
   key: string;
   text: string;
@@ -11,5 +13,10 @@ export interface I18nConfig {
   mainLang: string;
 
   resourcePath: string;
-  tranTarget: string;
+  tranDest: string;
+
+  tencent: {
+    config: TencentCloudCommon.ClientConfig;
+    translateParams: TextTranslateBatchRequest;
+  };
 }
