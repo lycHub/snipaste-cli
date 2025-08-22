@@ -15,7 +15,7 @@ export interface I18nConfig {
   resourcePath: string;
   tranDest: string;
 
-  tencent: {
+  tencent?: {
     config: TencentCloudCommon.ClientConfig;
     translateParams: TextTranslateBatchRequest;
   };

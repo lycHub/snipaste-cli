@@ -8,19 +8,6 @@ import { Client } from "tencentcloud-sdk-nodejs-tmt/tencentcloud/services/tmt/v2
 
 const TmtClient = tencentcloud.tmt.v20180321.Client;
 
-const clientConfig = {
-  credential: {
-    secretId: "AKID1vcByhR0e5IGzVny72jFXaOxIOEpBIAn",
-    secretKey: "QindEdpnX3LQGrENJ1VlnZ6PYT9a0FOV",
-  },
-  region: "ap-shanghai",
-  profile: {
-    httpProfile: {
-      endpoint: "tmt.tencentcloudapi.com",
-    },
-  },
-};
-
 export class TencentCloud {
   readonly #client: Client;
   constructor(config: TencentCloudCommon.ClientConfig) {
