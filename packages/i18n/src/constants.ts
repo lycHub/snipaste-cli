@@ -33,7 +33,7 @@ export const OptionsMeta = {
   tranDest: {
     key: "tranDestDir",
     description: "翻译结果存放目录",
-    default: "i18n",
+    default: "",
     option: "tranDest",
     shortOption: "td",
   },

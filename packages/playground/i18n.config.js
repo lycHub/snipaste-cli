@@ -4,7 +4,7 @@ export default {
   // langs: Langs,
   // mainLang: Langs[0],
   resourcePath: "",
-  tranDest: "i18n",
+  tranDest: "src/i18n",
   tencent: {
     config: {
       credential: {

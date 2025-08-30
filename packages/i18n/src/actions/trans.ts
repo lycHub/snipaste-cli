@@ -1,46 +1,81 @@
 import ora from "ora";
 import chalk from "chalk";
-import {
-  loadConfig,
-  readFileContent,
-  textToObject,
-  writeToJsonFile,
-} from "../utils.js";
-import { glob } from "glob";
+import { loadConfig, readFileContent, writeToJsonFile } from "../utils.js";
 import { join, resolve } from "node:path";
-import { compact, uniq } from "es-toolkit";
 import { DefaultConfig } from "../constants.js";
-import { I18nConfig } from "../typing.js";
+import { I18nConfig, MsgObj } from "../typing.js";
+import { TencentCloud } from "../translate/tencent.js";
+import { pickBy } from "es-toolkit";
 
-// const basePath = getDirname(import.meta.url);
+let tencentInstance: TencentCloud;
+
+async function makeLangJson({
+  extractJson,
+  lang,
+  mainLang,
+  config,
+}: {
+  extractJson: MsgObj[];
+  lang: string;
+  mainLang: string;
+  config: I18nConfig;
+}) {
+  let jsonText: Record<string, string> = {};
+  if (mainLang === lang) {
+    jsonText = extractJson.reduce((res, item) => {
+      res[item.text] = item.text;
+      return res;
+    }, {} as Record<string, string>);
+  } else {
+    const textList = extractJson.map((item) => item.text);
+    const { TargetTextList } = await tencentInstance.batchTranslateText({
+      ...(config.tencent?.translateParams || { ProjectId: 0 }),
+      Source: mainLang,
+      Target: lang,
+      SourceTextList: textList,
+    });
+    if (TargetTextList?.length) {
+      jsonText = extractJson.reduce((res, item, index) => {
+        res[item.text] = TargetTextList[index] || item.text;
+        return res;
+      }, {} as Record<string, string>);
+    }
+  }
+
+  // console.log("makeLangJson>>", lang, jsonText);
+  await writeToJsonFile(jsonText, join(config.tranDest, `${lang}.json`));
+  console.log("gen i18n success");
+}
+
 export default async function (config: I18nConfig) {
   const cwd = config.cwd || DefaultConfig.cwd;
-  const configObj = await loadConfig({ path: resolve(cwd, "i18n.config.js") });
-  const mergedConfig = { ...DefaultConfig, ...configObj, ...config };
-  console.log("trans", mergedConfig);
-  return;
+  const fileConfig = await loadConfig({ path: resolve(cwd, "i18n.config.js") });
+  const mergedConfig: I18nConfig = {
+    ...DefaultConfig,
+    ...pickBy(fileConfig, Boolean),
+    ...pickBy(config, Boolean),
+  };
+  // console.log("trans", mergedConfig);
+  // return;
   const spinner = ora(chalk.blue("translating...")).start();
   try {
-    const tsxFilePaths = await glob(mergedConfig.extractTarget, {
-      cwd: mergedConfig.cwd,
-    });
-    // console.log("tsxFilePaths>>>", tsxFilePaths);
-    const allTexts: string[] = [];
-    if (tsxFilePaths.length) {
-      const promises = tsxFilePaths.map((path) =>
-        readFileContent(join(mergedConfig.cwd, path))
-      );
-      for await (const texts of promises) {
-        allTexts.push(...texts);
-      }
+    const extractJson = (await readFileContent(
+      join(mergedConfig.cwd, mergedConfig.resourcePath)
+    )) as MsgObj[];
+    // console.log("extractJson>>>", extractJson);
+
+    if (extractJson.length && mergedConfig.tencent) {
+      tencentInstance = new TencentCloud(mergedConfig.tencent.config);
+      mergedConfig.langs.forEach((lang) => {
+        makeLangJson({
+          lang,
+          extractJson,
+          mainLang: mergedConfig.mainLang,
+          config: mergedConfig,
+        });
+      });
     }
-    const validTexts = uniq(compact(allTexts));
-    const jsonText = validTexts.map((item) => textToObject(item));
-    // console.log("validTexts>>> ", jsonText);
-    await writeToJsonFile(
-      jsonText,
-      join(mergedConfig.cwd, mergedConfig.extractDest)
-    );
+
     spinner.succeed("提取成功");
   } catch (error) {
     console.error("提取失败:", error);

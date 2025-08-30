@@ -2,7 +2,7 @@ import ora from "ora";
 import chalk from "chalk";
 import {
   loadConfig,
-  readFileContent,
+  extractFileContent,
   textToObject,
   writeToJsonFile,
 } from "../utils.js";
@@ -27,7 +27,7 @@ export default async function (config: I18nConfig) {
     const allTexts: string[] = [];
     if (tsxFilePaths.length) {
       const promises = tsxFilePaths.map((path) =>
-        readFileContent(join(mergedConfig.cwd, path))
+        extractFileContent(join(mergedConfig.cwd, path))
       );
       for await (const texts of promises) {
         allTexts.push(...texts);

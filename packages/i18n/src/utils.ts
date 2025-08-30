@@ -3,11 +3,11 @@ import { readFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { uid } from "uid";
 import { parse, Lang } from "@ast-grep/napi";
-import { MsgObj } from "./typing.js";
 import { compact, isPlainObject } from "es-toolkit";
 import { outputFileSync } from "fs-extra/esm";
 import { pathToFileURL } from "node:url";
 import { DefaultConfig } from "./constants.js";
+import destr from "destr";
 
 export function getDirname(importMetaUrl: string) {
   return dirname(fileURLToPath(importMetaUrl));
@@ -20,11 +20,7 @@ export function textToObject(text: string) {
   };
 }
 
-export function writeToJsonFile(
-  contentStr: string | MsgObj[],
-  filePath: string
-) {
-  console.log("writeToJsonFile", contentStr, filePath);
+export function writeToJsonFile(contentStr: string | object, filePath: string) {
   const jsonContent =
     typeof contentStr === "string"
       ? contentStr
@@ -33,6 +29,17 @@ export function writeToJsonFile(
 }
 
 export async function readFileContent(filePath: string) {
+  try {
+    const content = await readFile(filePath, "utf-8");
+    const extractJson = destr(content);
+    return extractJson;
+  } catch (err) {
+    console.error("读取文件出错:", err);
+  }
+  return [];
+}
+
+export async function extractFileContent(filePath: string) {
   const texts: string[] = [];
   try {
     const source = await readFile(filePath, "utf-8");
