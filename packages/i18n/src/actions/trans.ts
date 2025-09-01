@@ -43,8 +43,12 @@ async function makeLangJson({
   }
 
   // console.log("makeLangJson>>", lang, jsonText);
-  await writeToJsonFile(jsonText, join(config.tranDest, `${lang}.json`));
-  console.log("gen i18n success");
+  try {
+    await writeToJsonFile(jsonText, join(config.tranDest, `${lang}.json`));
+    console.log("gen i18n success");
+  } catch (error) {
+    console.error("gen i18n error", error);
+  }
 }
 
 export default async function (config: I18nConfig) {
@@ -55,7 +59,7 @@ export default async function (config: I18nConfig) {
     ...pickBy(fileConfig, Boolean),
     ...pickBy(config, Boolean),
   };
-  // console.log("trans", mergedConfig);
+  console.log("trans", mergedConfig);
   // return;
   const spinner = ora(chalk.blue("translating...")).start();
   try {
@@ -76,9 +80,9 @@ export default async function (config: I18nConfig) {
       });
     }
 
-    spinner.succeed("提取成功");
+    spinner.succeed("翻译成功");
   } catch (error) {
-    console.error("提取失败:", error);
+    console.error("翻译失败:", error);
     throw error;
   }
 }

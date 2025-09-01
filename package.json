@@ -8,6 +8,7 @@
     "start": "pnpm -C=packages/playground dev",
     "build": "pnpm -C=packages/playground build",
     "dev:i18n": "pnpm -C=packages/i18n dev",
+    "build:i18n": "pnpm -C=packages/i18n build",
     "i18n:extract": "pnpm -C=packages/playground i18n:extract",
     "i18n:gen": "pnpm -C=packages/playground i18n:gen"
   },

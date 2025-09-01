@@ -17,6 +17,6 @@ export interface I18nConfig {
 
   tencent?: {
     config: TencentCloudCommon.ClientConfig;
-    translateParams: TextTranslateBatchRequest;
+    translateParams?: TextTranslateBatchRequest;
   };
 }

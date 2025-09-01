@@ -17,13 +17,13 @@ export default async function (config: I18nConfig) {
   const cwd = config.cwd || DefaultConfig.cwd;
   const configObj = await loadConfig({ path: resolve(cwd, "i18n.config.js") });
   const mergedConfig = { ...DefaultConfig, ...configObj, ...config };
-  console.log("extract", mergedConfig);
+  // console.log("extract>>", mergedConfig);
   const spinner = ora(chalk.blue("extracting...")).start();
   try {
     const tsxFilePaths = await glob(mergedConfig.extractTarget, {
       cwd: mergedConfig.cwd,
     });
-    // console.log("tsxFilePaths>>>", tsxFilePaths);
+    console.log("tsxFilePaths>>>", tsxFilePaths);
     const allTexts: string[] = [];
     if (tsxFilePaths.length) {
       const promises = tsxFilePaths.map((path) =>

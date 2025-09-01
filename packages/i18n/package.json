@@ -10,7 +10,7 @@
   "homepage": "https://github.com/lycHub/snipaste-cli/tree/main/packages/i18n#readme",
   "type": "module",
   "main": "index.js",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/typings.d.ts",
   "bin": {
     "i18n": "index.js"
   },
